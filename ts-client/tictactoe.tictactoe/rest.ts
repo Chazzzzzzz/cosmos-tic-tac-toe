@@ -24,6 +24,12 @@ export interface TictactoeMsgCreateGameResponse {
   gameIndex?: string;
 }
 
+export interface TictactoeMsgPlayMoveResponse {
+  /** @format int32 */
+  captured?: number;
+  winner?: string;
+}
+
 /**
  * Params defines the parameters for the module.
  */

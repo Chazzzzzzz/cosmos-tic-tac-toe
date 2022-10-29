@@ -75312,6 +75312,14 @@ definitions:
     properties:
       gameIndex:
         type: string
+  tictactoe.tictactoe.MsgPlayMoveResponse:
+    type: object
+    properties:
+      captured:
+        type: integer
+        format: int32
+      winner:
+        type: string
   tictactoe.tictactoe.Params:
     type: object
     description: Params defines the parameters for the module.

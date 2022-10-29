@@ -33,7 +33,7 @@ func (k msgServer) CreateGame(goCtx context.Context, msg *types.MsgCreateGame) (
 	storedGame := types.StoredGame{
 		Index:  newIndex,
 		Board:  newGame.String(),
-		Turn:   X,
+		Turn:   "X",
 		Banker: msg.Banker,
 		Player: msg.Player,
 		X:      X,
