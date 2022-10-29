@@ -21,3 +21,11 @@ func KeyPrefix(p string) []byte {
 const (
 	SystemInfoKey = "SystemInfo/value/"
 )
+
+const (
+	GameCompletedEventType      = "game-completed"
+	GameCompletedEventGameIndex = "game-index"
+	GameCompletedEventWinner    = "winner"
+	GameCompletedEventBanker    = "banker"
+	GameCompletedEventPlayer    = "player"
+)

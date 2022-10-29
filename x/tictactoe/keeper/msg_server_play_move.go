@@ -48,6 +48,14 @@ func (k msgServer) PlayMove(goCtx context.Context, msg *types.MsgPlayMove) (*typ
 	if gameOver {
 		storedGame.Winner = winner
 		storedGame.State = "COMPLETED"
+		ctx.EventManager().EmitEvent(
+			sdk.NewEvent(types.GameCompletedEventType,
+				sdk.NewAttribute(types.GameCompletedEventGameIndex, storedGame.Index),
+				sdk.NewAttribute(types.GameCompletedEventBanker, storedGame.Banker),
+				sdk.NewAttribute(types.GameCompletedEventPlayer, storedGame.Player),
+				sdk.NewAttribute(types.GameCompletedEventWinner, winner),
+			),
+		)
 	}
 
 	storedGame.Board = game.String()
