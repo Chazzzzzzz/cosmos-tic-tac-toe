@@ -1,0 +1,18 @@
+syntax = "proto3";
+package tictactoe.tictactoe;
+
+option go_package = "tictactoe/x/tictactoe/types";
+
+message StoredGame {
+  string index = 1; 
+  string board = 2; 
+  string turn = 3; 
+  string banker = 4; 
+  string player = 5; 
+  string x = 6; 
+  string o = 7; 
+  string winner = 8; 
+  string state = 9; 
+  
+}
+
