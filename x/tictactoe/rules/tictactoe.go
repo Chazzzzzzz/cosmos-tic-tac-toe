@@ -2,6 +2,7 @@ package rules
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -84,7 +85,7 @@ func (game *Game) Move(pos int, player Player) (err error) {
 
 func (game *Game) PrintGame() {
 	for i := 0; i < 9; i += 3 {
-		print(game.board[i], " ", game.board[i+1], " ", game.board[i+2], "\n")
+		fmt.Sprint(game.board[i], " ", game.board[i+1], " ", game.board[i+2], "\n")
 	}
 }
 
