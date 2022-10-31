@@ -29,3 +29,15 @@ const (
 	GameCompletedEventBanker    = "banker"
 	GameCompletedEventPlayer    = "player"
 )
+
+const (
+	GameStartedEventType      = "game-rejected"
+	GameStartedEventCreator   = "creator"
+	GameStartedEventGameIndex = "game-index"
+)
+
+const (
+	GamePendingAcceptance = "PENDING_ACCEPTANCE"
+	GameInProgress        = "IN_PROGRESS"
+	GameCompleted         = "COMPLETED"
+)

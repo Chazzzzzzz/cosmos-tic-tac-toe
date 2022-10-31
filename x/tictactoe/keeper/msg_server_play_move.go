@@ -17,6 +17,14 @@ func (k msgServer) PlayMove(goCtx context.Context, msg *types.MsgPlayMove) (*typ
 		return nil, sdkerrors.Wrapf(types.ErrGameNotFound, "%s", msg.GameIndex)
 	}
 
+	if storedGame.State == types.GamePendingAcceptance {
+		return nil, sdkerrors.Wrapf(types.ErrGameNotStarted, "%s", msg.GameIndex)
+	}
+
+	if storedGame.State == types.GameCompleted {
+		return nil, sdkerrors.Wrapf(types.ErrGameCompleted, "%s", msg.GameIndex)
+	}
+
 	isX := storedGame.X == msg.Creator
 	isO := storedGame.O == msg.Creator
 	var player rules.Player

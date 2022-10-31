@@ -25,6 +25,14 @@ export interface MsgPlayMoveResponse {
   winner: string;
 }
 
+export interface MsgAcceptGame {
+  creator: string;
+  gameIndex: string;
+}
+
+export interface MsgAcceptGameResponse {
+}
+
 function createBaseMsgCreateGame(): MsgCreateGame {
   return { creator: "", banker: "", player: "" };
 }
@@ -264,11 +272,109 @@ export const MsgPlayMoveResponse = {
   },
 };
 
+function createBaseMsgAcceptGame(): MsgAcceptGame {
+  return { creator: "", gameIndex: "" };
+}
+
+export const MsgAcceptGame = {
+  encode(message: MsgAcceptGame, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.gameIndex !== "") {
+      writer.uint32(18).string(message.gameIndex);
+    }
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgAcceptGame {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgAcceptGame();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.gameIndex = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgAcceptGame {
+    return {
+      creator: isSet(object.creator) ? String(object.creator) : "",
+      gameIndex: isSet(object.gameIndex) ? String(object.gameIndex) : "",
+    };
+  },
+
+  toJSON(message: MsgAcceptGame): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.gameIndex !== undefined && (obj.gameIndex = message.gameIndex);
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgAcceptGame>, I>>(object: I): MsgAcceptGame {
+    const message = createBaseMsgAcceptGame();
+    message.creator = object.creator ?? "";
+    message.gameIndex = object.gameIndex ?? "";
+    return message;
+  },
+};
+
+function createBaseMsgAcceptGameResponse(): MsgAcceptGameResponse {
+  return {};
+}
+
+export const MsgAcceptGameResponse = {
+  encode(_: MsgAcceptGameResponse, writer: _m0.Writer = _m0.Writer.create()): _m0.Writer {
+    return writer;
+  },
+
+  decode(input: _m0.Reader | Uint8Array, length?: number): MsgAcceptGameResponse {
+    const reader = input instanceof _m0.Reader ? input : new _m0.Reader(input);
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = createBaseMsgAcceptGameResponse();
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgAcceptGameResponse {
+    return {};
+  },
+
+  toJSON(_: MsgAcceptGameResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial<I extends Exact<DeepPartial<MsgAcceptGameResponse>, I>>(_: I): MsgAcceptGameResponse {
+    const message = createBaseMsgAcceptGameResponse();
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   CreateGame(request: MsgCreateGame): Promise<MsgCreateGameResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   PlayMove(request: MsgPlayMove): Promise<MsgPlayMoveResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  AcceptGame(request: MsgAcceptGame): Promise<MsgAcceptGameResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -277,6 +383,7 @@ export class MsgClientImpl implements Msg {
     this.rpc = rpc;
     this.CreateGame = this.CreateGame.bind(this);
     this.PlayMove = this.PlayMove.bind(this);
+    this.AcceptGame = this.AcceptGame.bind(this);
   }
   CreateGame(request: MsgCreateGame): Promise<MsgCreateGameResponse> {
     const data = MsgCreateGame.encode(request).finish();
@@ -288,6 +395,12 @@ export class MsgClientImpl implements Msg {
     const data = MsgPlayMove.encode(request).finish();
     const promise = this.rpc.request("tictactoe.tictactoe.Msg", "PlayMove", data);
     return promise.then((data) => MsgPlayMoveResponse.decode(new _m0.Reader(data)));
+  }
+
+  AcceptGame(request: MsgAcceptGame): Promise<MsgAcceptGameResponse> {
+    const data = MsgAcceptGame.encode(request).finish();
+    const promise = this.rpc.request("tictactoe.tictactoe.Msg", "AcceptGame", data);
+    return promise.then((data) => MsgAcceptGameResponse.decode(new _m0.Reader(data)));
   }
 }
 

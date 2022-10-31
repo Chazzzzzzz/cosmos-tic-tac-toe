@@ -39,7 +39,7 @@ func (k msgServer) CreateGame(goCtx context.Context, msg *types.MsgCreateGame) (
 		X:      X,
 		O:      O,
 		Winner: "",
-		State:  "IN_PROGRESS",
+		State:  types.GamePendingAcceptance,
 	}
 
 	err := storedGame.Validate()

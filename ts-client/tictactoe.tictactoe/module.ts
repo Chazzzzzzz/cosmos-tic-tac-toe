@@ -9,9 +9,10 @@ import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
 import { MsgPlayMove } from "./types/tictactoe/tictactoe/tx";
 import { MsgCreateGame } from "./types/tictactoe/tictactoe/tx";
+import { MsgAcceptGame } from "./types/tictactoe/tictactoe/tx";
 
 
-export { MsgPlayMove, MsgCreateGame };
+export { MsgPlayMove, MsgCreateGame, MsgAcceptGame };
 
 type sendMsgPlayMoveParams = {
   value: MsgPlayMove,
@@ -25,6 +26,12 @@ type sendMsgCreateGameParams = {
   memo?: string
 };
 
+type sendMsgAcceptGameParams = {
+  value: MsgAcceptGame,
+  fee?: StdFee,
+  memo?: string
+};
+
 
 type msgPlayMoveParams = {
   value: MsgPlayMove,
@@ -32,6 +39,10 @@ type msgPlayMoveParams = {
 
 type msgCreateGameParams = {
   value: MsgCreateGame,
+};
+
+type msgAcceptGameParams = {
+  value: MsgAcceptGame,
 };
 
 
@@ -80,6 +91,20 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		async sendMsgAcceptGame({ value, fee, memo }: sendMsgAcceptGameParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgAcceptGame: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgAcceptGame({ value: MsgAcceptGame.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgAcceptGame: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
 		
 		msgPlayMove({ value }: msgPlayMoveParams): EncodeObject {
 			try {
@@ -94,6 +119,14 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 				return { typeUrl: "/tictactoe.tictactoe.MsgCreateGame", value: MsgCreateGame.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgCreateGame: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgAcceptGame({ value }: msgAcceptGameParams): EncodeObject {
+			try {
+				return { typeUrl: "/tictactoe.tictactoe.MsgAcceptGame", value: MsgAcceptGame.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgAcceptGame: Could not create message: ' + e.message)
 			}
 		},
 		

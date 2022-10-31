@@ -9,6 +9,7 @@ option go_package = "tictactoe/x/tictactoe/types";
 service Msg {
       rpc CreateGame(MsgCreateGame) returns (MsgCreateGameResponse);
   rpc PlayMove(MsgPlayMove) returns (MsgPlayMoveResponse);
+  rpc AcceptGame(MsgAcceptGame) returns (MsgAcceptGameResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -31,6 +32,14 @@ message MsgPlayMove {
 message MsgPlayMoveResponse {
   int32 captured = 1;
   string winner = 2;
+}
+
+message MsgAcceptGame {
+  string creator = 1;
+  string gameIndex = 2;
+}
+
+message MsgAcceptGameResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

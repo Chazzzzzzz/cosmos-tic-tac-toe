@@ -12,7 +12,6 @@ message StoredGame {
   string x = 6; 
   string o = 7; 
   string winner = 8; 
-  string state = 9; 
-  
+  string state = 9;
 }
 

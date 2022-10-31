@@ -20,6 +20,8 @@ export interface RpcStatus {
   details?: ProtobufAny[];
 }
 
+export type TictactoeMsgAcceptGameResponse = object;
+
 export interface TictactoeMsgCreateGameResponse {
   gameIndex?: string;
 }
