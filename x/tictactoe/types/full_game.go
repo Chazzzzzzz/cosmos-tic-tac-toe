@@ -8,14 +8,14 @@ import (
 	"tictactoe/x/tictactoe/rules"
 )
 
-func (storedGame StoredGame) GetBankerAddress() (black sdk.AccAddress, err error) {
-	black, errBlack := sdk.AccAddressFromBech32(storedGame.Banker)
-	return black, sdkerrors.Wrapf(errBlack, ErrInvalidPlayer.Error(), storedGame.Banker)
+func (storedGame StoredGame) GetBankerAddress() (banker sdk.AccAddress, err error) {
+	banker, errBlack := sdk.AccAddressFromBech32(storedGame.Banker)
+	return banker, sdkerrors.Wrapf(errBlack, ErrInvalidPlayer.Error(), storedGame.Banker)
 }
 
-func (storedGame StoredGame) GetPlayerAddress() (red sdk.AccAddress, err error) {
-	red, errRed := sdk.AccAddressFromBech32(storedGame.Player)
-	return red, sdkerrors.Wrapf(errRed, ErrInvalidPlayer.Error(), storedGame.Player)
+func (storedGame StoredGame) GetPlayerAddress() (player sdk.AccAddress, err error) {
+	player, errRed := sdk.AccAddressFromBech32(storedGame.Player)
+	return player, sdkerrors.Wrapf(errRed, ErrInvalidPlayer.Error(), storedGame.Player)
 }
 
 func (storedGame StoredGame) ParseGame() (game *rules.Game, err error) {
