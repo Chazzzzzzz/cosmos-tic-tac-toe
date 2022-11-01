@@ -1,6 +1,35 @@
 # tictactoe
 **tictactoe** is a blockchain built using Cosmos SDK and Tendermint and created with [Ignite CLI](https://ignite.com/cli).
 
+## Steps
+1. run the following command in your terminal to export accounts
+```
+export alice=$(tictactoed keys show alice -a)
+export bob=$(tictactoed keys show bob -a)
+```
+2. start the blockchain
+```
+ignite chain serve -r
+```
+3. query stored game
+```
+tictactoed query tictactoe list-stored-game
+```
+4. create a game
+```
+tictactoed tx tictactoe create-game $alice $bob --from $alice --gas auto
+```
+5. accept a game
+```
+tictactoed tx tictactoe accept-game 1 --from $bob
+```
+6. move
+```
+tictactoed tx tictactoe play-move 1 0 —from $alice
+```
+
+the main logic is within tictactoe/x/keeper and tictactoe/x/rule
+
 ## Get started
 
 ```
